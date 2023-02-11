@@ -9,5 +9,5 @@ import Foundation
 import ARKit
 
 class ARDelegate: NSObject, ARSCNViewDelegate, ARSessionDelegate, ObservableObject {
-    
+    var arView: ARSCNView?
 }

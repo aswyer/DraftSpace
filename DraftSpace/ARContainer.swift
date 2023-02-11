@@ -21,7 +21,9 @@ struct ARViewContainer: UIViewRepresentable {
         configuration.planeDetection = .horizontal
         sceneView.session.run(configuration)
         
+        sceneView.delegate = arDelegate
         sceneView.session.delegate = arDelegate
+        arDelegate.arView = sceneView
         
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
