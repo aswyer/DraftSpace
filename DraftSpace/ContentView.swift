@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var arDelegate = ARDelegate()
+    @ObservedObject var arDelegate: ARDelegate
     
     var body: some View {
         ARViewContainer(arDelegate: arDelegate).edgesIgnoringSafeArea(.all)
@@ -17,6 +17,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(arDelegate: ARDelegate())
     }
 }

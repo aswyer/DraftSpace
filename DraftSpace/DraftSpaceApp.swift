@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct DraftSpaceApp: App {
+    
+    @StateObject var arDelegate = ARDelegate()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(arDelegate: arDelegate)
         }
     }
 }

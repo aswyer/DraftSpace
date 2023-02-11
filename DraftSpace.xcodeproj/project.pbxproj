@@ -13,6 +13,7 @@
 		400EBA6529982A6E0005478E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 400EBA6429982A6E0005478E /* Preview Assets.xcassets */; };
 		40B9893629982D4C00E92373 /* ARContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B9893529982D4C00E92373 /* ARContainer.swift */; };
 		40B9893829982DED00E92373 /* ARDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B9893729982DED00E92373 /* ARDelegate.swift */; };
+		40B9893A29983A7400E92373 /* MultipeerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B9893929983A7400E92373 /* MultipeerSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,8 @@
 		400EBA6429982A6E0005478E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		40B9893529982D4C00E92373 /* ARContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARContainer.swift; sourceTree = "<group>"; };
 		40B9893729982DED00E92373 /* ARDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARDelegate.swift; sourceTree = "<group>"; };
+		40B9893929983A7400E92373 /* MultipeerSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerSession.swift; sourceTree = "<group>"; };
+		40B9893B299847B800E92373 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,8 +58,10 @@
 		400EBA5C29982A6D0005478E /* DraftSpace */ = {
 			isa = PBXGroup;
 			children = (
+				40B9893B299847B800E92373 /* Info.plist */,
 				400EBA5D29982A6D0005478E /* DraftSpaceApp.swift */,
 				400EBA5F29982A6D0005478E /* ContentView.swift */,
+				40B9893929983A7400E92373 /* MultipeerSession.swift */,
 				40B9893529982D4C00E92373 /* ARContainer.swift */,
 				40B9893729982DED00E92373 /* ARDelegate.swift */,
 				400EBA6129982A6E0005478E /* Assets.xcassets */,
@@ -145,6 +150,7 @@
 			files = (
 				40B9893629982D4C00E92373 /* ARContainer.swift in Sources */,
 				40B9893829982DED00E92373 /* ARDelegate.swift in Sources */,
+				40B9893A29983A7400E92373 /* MultipeerSession.swift in Sources */,
 				400EBA6029982A6D0005478E /* ContentView.swift in Sources */,
 				400EBA5E29982A6D0005478E /* DraftSpaceApp.swift in Sources */,
 			);
@@ -278,10 +284,13 @@
 				DEVELOPMENT_TEAM = 7Z964G7Z5X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DraftSpace/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "DraftSpace needs access to your camera.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "DraftSpace needs access to your local network.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "armv7 arkit";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -308,10 +317,13 @@
 				DEVELOPMENT_TEAM = 7Z964G7Z5X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DraftSpace/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "DraftSpace needs access to your camera.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "DraftSpace needs access to your local network.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "armv7 arkit";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

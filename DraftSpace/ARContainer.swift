@@ -23,7 +23,7 @@ struct ARViewContainer: UIViewRepresentable {
         
         sceneView.delegate = arDelegate
         sceneView.session.delegate = arDelegate
-        arDelegate.arView = sceneView
+        arDelegate.sceneView = sceneView
         
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
