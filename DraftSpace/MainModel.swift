@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import RealityKit
 
 enum ToolType: String, CaseIterable, Codable {
     
@@ -49,44 +50,41 @@ class MainModel: NSObject, ObservableObject {
     var arModel = ARModel()
     
     func confirmPlacement() {
-        //move somewhere else
         
         //anchor
         guard
             let center = arModel.sceneView?.center,
             let raycastQuery = arModel.sceneView?
-            .makeRaycastQuery(from: center, allowing: .estimatedPlane, alignment: .any)
+                .makeRaycastQuery(from: center, allowing: .estimatedPlane, alignment: .any)
         else { return }
         
         let raycastResult = arModel.sceneView?.session.raycast(raycastQuery)
         
-//        guard let intersectionTransform = raycastResult?.first?.worldTransform else { return }
-//        let intersectionPosition = SIMD3(
-//            x: intersectionTransform.columns.3.x,
-//            y: intersectionTransform.columns.3.y,
-//            z: intersectionTransform.columns.3.z
-//        )
-//
-//        guard let cameraPosition = model.sceneView?.cameraTransform.translation else { return }
-//
-//        let midpoint = mix(cameraPosition, intersectionPosition, t: model.depth)
-//
-//
-//        let finalTransform = simd_float4x4(
-//            SIMD4(1, 0, 0, 0),
-//            SIMD4(0, 1, 0, 0),
-//            SIMD4(0, 0, 1, 0),
-//            SIMD4(intersectionPosition.x, intersectionPosition.y, intersectionPosition.z, 1)
-//        )
-//
-//        let anchor = ARAnchor(transform: finalTransform)
+        
+        //raycast intersection point
+        guard let intersectionTransform = raycastResult?.first?.worldTransform else { return }
+        let intersectionPosition = SIMD3(
+            x: intersectionTransform.columns.3.x,
+            y: intersectionTransform.columns.3.y,
+            z: intersectionTransform.columns.3.z
+        )
 
-        guard let anchorWorldTransform = raycastResult?.first?.worldTransform else { return }
+        //camera point
+        guard let cameraPosition = arModel.sceneView?.cameraTransform.translation else { return }
+
+        //interpolate
+        let midpoint = mix(cameraPosition, intersectionPosition, t: depth)
+
+        //convert to 4x4
+        let finalTransform = simd_float4x4(
+            SIMD4(1, 0, 0, 0),
+            SIMD4(0, 1, 0, 0),
+            SIMD4(0, 0, 1, 0),
+            SIMD4(midpoint.x, midpoint.y, midpoint.z, 1)
+        )
         
         //publish
-        let modelObject = ModelObject(modelType: .cube, worldTransform: anchorWorldTransform, size: 0.2)
-        //ARAnchorContainer(anchor: newAnchor)
-        //                        let modelObject = ModelObject(modelType: .cube, position: midpoint, size: 0.05)
+        let modelObject = ModelObject(modelType: .cube, worldTransform: finalTransform, size: 0.2)
         arModel.sendItem(modelObject)
         arModel.addModelObject(modelObject)
     }
