@@ -11,6 +11,7 @@
 		400EBA6029982A6D0005478E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400EBA5F29982A6D0005478E /* ContentView.swift */; };
 		400EBA6229982A6E0005478E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 400EBA6129982A6E0005478E /* Assets.xcassets */; };
 		400EBA6529982A6E0005478E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 400EBA6429982A6E0005478E /* Preview Assets.xcassets */; };
+		401BBDBE299869EF00658212 /* ModelObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401BBDBD299869EF00658212 /* ModelObject.swift */; };
 		40B9893629982D4C00E92373 /* ARContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B9893529982D4C00E92373 /* ARContainer.swift */; };
 		40B9893829982DED00E92373 /* ARDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B9893729982DED00E92373 /* ARDelegate.swift */; };
 		40B9893A29983A7400E92373 /* MultipeerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B9893929983A7400E92373 /* MultipeerSession.swift */; };
@@ -22,6 +23,7 @@
 		400EBA5F29982A6D0005478E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		400EBA6129982A6E0005478E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		400EBA6429982A6E0005478E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		401BBDBD299869EF00658212 /* ModelObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelObject.swift; sourceTree = "<group>"; };
 		40B9893529982D4C00E92373 /* ARContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARContainer.swift; sourceTree = "<group>"; };
 		40B9893729982DED00E92373 /* ARDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARDelegate.swift; sourceTree = "<group>"; };
 		40B9893929983A7400E92373 /* MultipeerSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerSession.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				40B9893929983A7400E92373 /* MultipeerSession.swift */,
 				40B9893529982D4C00E92373 /* ARContainer.swift */,
 				40B9893729982DED00E92373 /* ARDelegate.swift */,
+				401BBDBF299884CA00658212 /* Objects */,
 				400EBA6129982A6E0005478E /* Assets.xcassets */,
 				400EBA6329982A6E0005478E /* Preview Content */,
 			);
@@ -76,6 +79,14 @@
 				400EBA6429982A6E0005478E /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		401BBDBF299884CA00658212 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				401BBDBD299869EF00658212 /* ModelObject.swift */,
+			);
+			path = Objects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,6 +163,7 @@
 				40B9893829982DED00E92373 /* ARDelegate.swift in Sources */,
 				40B9893A29983A7400E92373 /* MultipeerSession.swift in Sources */,
 				400EBA6029982A6D0005478E /* ContentView.swift in Sources */,
+				401BBDBE299869EF00658212 /* ModelObject.swift in Sources */,
 				400EBA5E29982A6D0005478E /* DraftSpaceApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

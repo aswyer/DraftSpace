@@ -8,6 +8,7 @@
 import Foundation
 import ARKit
 import SwiftUI
+import RealityKit
 
 struct ARViewContainer: UIViewRepresentable {
     
@@ -16,15 +17,15 @@ struct ARViewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> some UIView {
         
         let sceneView = ARSCNView(frame: .zero)
-        
+
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = .horizontal
         sceneView.session.run(configuration)
-        
+
         sceneView.delegate = arDelegate
         sceneView.session.delegate = arDelegate
         arDelegate.sceneView = sceneView
-        
+
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
         // Prevent the screen from being dimmed after a while as users will likely
