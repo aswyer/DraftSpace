@@ -9,10 +9,13 @@ import Foundation
 import ARKit
 import MultipeerConnectivity
 import RealityKit
+import SwiftUI
 
-enum ToolType: CaseIterable, Codable {
-    case sphere, cube, prism, pencil, highlighter
+enum ToolType: String, CaseIterable, Codable {
     
+    case sphere, cube, prism, pencil, highlighter, mouse
+  //  static let allValues = [sphere,cube,prism,pencil,highlighter,mouse]
+
     var imageName: String {
         switch(self) {
         case .sphere:
@@ -25,15 +28,29 @@ enum ToolType: CaseIterable, Codable {
             return  "pencil"
         case .highlighter:
             return "highlighter"
+        case .mouse:
+            return "hand.point.up.left"
         }
     }
 }
+enum ViewType {
+    case AR, ThreeD
+}
 
 @MainActor
-class ARDelegate: NSObject, ObservableObject, ARSCNViewDelegate, ARSessionDelegate {
+class MainModel: NSObject, ObservableObject, ARSCNViewDelegate, ARSessionDelegate {
     
     var sceneView: ARSCNView?
     var multipeerSession: MultipeerSession!
+    
+    @Published var buttonSelected : ToolType = .mouse
+    @Published var objectColor : Color = .white
+    @Published var moveSelected: Bool = false
+    @Published var viewType: ViewType = .AR
+    @Published var canChangeTool: Bool = true
+    @Published var baseColor: Color = .forestGreen
+    @Published var objectsPlaced: Int = 0
+    @Published var collborators: Int = 0
     
     init(sceneView: ARSCNView? = nil) {
         super.init()
@@ -64,15 +81,15 @@ class ARDelegate: NSObject, ObservableObject, ARSCNViewDelegate, ARSessionDelega
     }
     
     func sendItem(_ item: ModelObject) {
-//        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: item, requiringSecureCoding: true) else {
-//            return
-//        }
-//        do {
-//            let data = try NSKeyedArchiver.archivedData(withRootObject: item, requiringSecureCoding: true)
-//            multipeerSession.sendToAllPeers(data)
-//        } catch {
-//            print(error)
-//        }
+        //        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: item, requiringSecureCoding: true) else {
+        //            return
+        //        }
+        //        do {
+        //            let data = try NSKeyedArchiver.archivedData(withRootObject: item, requiringSecureCoding: true)
+        //            multipeerSession.sendToAllPeers(data)
+        //        } catch {
+        //            print(error)
+        //        }
         
         do {
             let json = try JSONEncoder().encode(item)
@@ -101,27 +118,27 @@ class ARDelegate: NSObject, ObservableObject, ARSCNViewDelegate, ARSessionDelega
         }
     }
     
-//    var tempNextGeometry: SCNGeometry?
-//    var tempNextAnchor: ARAnchor?
+    //    var tempNextGeometry: SCNGeometry?
+    //    var tempNextAnchor: ARAnchor?
     
     func addModelObject(_ modelObject: ModelObject) {
         guard let node = modelObject.node else { return }
         sceneView?.scene.rootNode.addChildNode(node)
     }
     
-//    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-//        guard
-//            let tempNextGeometry = tempNextGeometry,
-//            let tempNextAnchor = tempNextAnchor,
-//            tempNextAnchor == anchor
-//        else { return }
-//
-//        let node = SCNNode(geometry: tempNextGeometry)
-//        node.addChildNode(node)
-//
-//        self.tempNextAnchor = nil
-//        self.tempNextGeometry = nil
-//    }
+    //    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+    //        guard
+    //            let tempNextGeometry = tempNextGeometry,
+    //            let tempNextAnchor = tempNextAnchor,
+    //            tempNextAnchor == anchor
+    //        else { return }
+    //
+    //        let node = SCNNode(geometry: tempNextGeometry)
+    //        node.addChildNode(node)
+    //
+    //        self.tempNextAnchor = nil
+    //        self.tempNextGeometry = nil
+    //    }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         switch frame.worldMappingStatus {
@@ -133,5 +150,6 @@ class ARDelegate: NSObject, ObservableObject, ARSCNViewDelegate, ARSessionDelega
             break
         }
     }
-    
 }
+
+

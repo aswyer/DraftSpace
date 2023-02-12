@@ -12,7 +12,7 @@ import RealityKit
 
 struct ARViewContainer: UIViewRepresentable {
     
-    let arDelegate: ARDelegate
+    let model: MainModel
     
     func makeUIView(context: Context) -> some UIView {
         
@@ -22,9 +22,9 @@ struct ARViewContainer: UIViewRepresentable {
         configuration.planeDetection = .horizontal
         sceneView.session.run(configuration)
 
-        sceneView.delegate = arDelegate
-        sceneView.session.delegate = arDelegate
-        arDelegate.sceneView = sceneView
+        sceneView.delegate = model
+        sceneView.session.delegate = model
+        model.sceneView = sceneView
 
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
