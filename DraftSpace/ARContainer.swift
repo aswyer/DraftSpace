@@ -17,16 +17,19 @@ struct ARViewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> some UIView {
         
         let sceneView = ARView(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: false)
+        sceneView.session.delegate = model.arModel
+        model.arModel.sceneView = sceneView
         
         let config = ARWorldTrackingConfiguration()
         config.environmentTexturing = .automatic
+        config.frameSemantics.insert(.personSegmentationWithDepth)
         config.planeDetection = .horizontal
         sceneView.session.run(config)
         
         sceneView.debugOptions = [.showWorldOrigin]
         
         
-        model.arModel.sceneView = sceneView
+        
         
         UIApplication.shared.isIdleTimerDisabled = true
         

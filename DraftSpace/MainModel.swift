@@ -42,53 +42,41 @@ class MainModel: NSObject, ObservableObject {
     @Published var moveSelected: Bool = false
     @Published var viewType: ViewType = .AR
     @Published var canChangeTool: Bool = true
-    @Published var baseColor: Color = .blue
+    @Published var baseColor: Color = .white
     @Published var objectsPlaced: Int = 0
     @Published var collborators: Int = 0
     @Published var depth: Float = 1
     @Published var text: String = "Hello World"
     @Published var size: Float = 0.05
     
+//    private var points: []
+    
     var arModel = ARModel()
     
+    func startDrawing() {
+        print("start drawing")
+        let modelObject = ModelObject(modelType: .pencil, color: objectColor, size: size, text: text)
+        arModel.startRecording(modelObject: modelObject, depth: depth)
+    }
+    
+    func stopDrawing() {
+        print("stop drawing")
+        arModel.stopRecording()
+        arModel.resetDrawing()
+        
+//        let modelObject = ModelObject(modelType: .pencil, color: objectColor, size: size, text: text)
+//        arModel.confirmPlacement(of: modelObject, at: depth)
+    }
+    
     func confirmPlacement() {
-        
-        //anchor
-        guard
-            let center = arModel.sceneView?.center,
-            let raycastQuery = arModel.sceneView?
-                .makeRaycastQuery(from: center, allowing: .estimatedPlane, alignment: .any)
-        else { return }
-        
-        let raycastResult = arModel.sceneView?.session.raycast(raycastQuery)
-        
-        
-        //raycast intersection point
-        guard let intersectionTransform = raycastResult?.first?.worldTransform else { return }
-        let intersectionPosition = SIMD3(
-            x: intersectionTransform.columns.3.x,
-            y: intersectionTransform.columns.3.y,
-            z: intersectionTransform.columns.3.z
-        )
-
-        //camera point
-        guard let cameraPosition = arModel.sceneView?.cameraTransform.translation else { return }
-
-        //interpolate
-        let midpoint = mix(cameraPosition, intersectionPosition, t: depth)
-
-        //convert to 4x4
-        let finalTransform = simd_float4x4(
-            SIMD4(1, 0, 0, 0),
-            SIMD4(0, 1, 0, 0),
-            SIMD4(0, 0, 1, 0),
-            SIMD4(midpoint.x, midpoint.y, midpoint.z, 1)
-        )
-        
-        //publish
-        let modelObject = ModelObject(modelType: buttonSelected, worldTransform: finalTransform, size: size, text: text, color: objectColor)
-        arModel.sendItem(modelObject)
-        arModel.addModelObject(modelObject)
+        let modelObject = ModelObject(modelType: buttonSelected, color: objectColor, size: size, text: text)
+        arModel.confirmPlacement(of: modelObject, at: depth)
+    }
+    
+    
+    
+    func reset() {
+        arModel.sceneView?.scene.anchors.removeAll()
     }
 }
 

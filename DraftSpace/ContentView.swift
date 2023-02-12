@@ -18,7 +18,7 @@ extension Color {
 }
 
 struct ContentView: View {
-    @ObservedObject var model : MainModel
+    @ObservedObject var model: MainModel
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -45,6 +45,12 @@ struct ContentView: View {
                         .padding()
                         .frame(maxWidth:200)
                     Spacer()
+                    Button {
+                        model.reset()
+                    } label: {
+                        Image(systemName: "trash.fill").font(.largeTitle)
+                    }
+
                     SettingsButton(model: model)
                 }.padding()
                 Spacer()
@@ -168,11 +174,18 @@ struct DepthSlider: View {
 
 struct ActionButton: View {
     @ObservedObject var model: MainModel
+    @State var isDrawing = false
     var body: some View {
         Button {
             switch (model.buttonSelected) {
             case ToolType.pencil:
-                onRelease()
+                if isDrawing {
+                    model.stopDrawing()
+                } else {
+                    model.startDrawing()
+                }
+                isDrawing = !isDrawing
+                
             case ToolType.mouse:
                 onRelease()
                 if(model.moveSelected) {
@@ -218,7 +231,7 @@ struct SettingsButton: View {
             showingPopover = true
             
         } label: {
-            Image(systemName: "gear").font(.largeTitle)
+            Image(systemName: "gearshape.fill").font(.largeTitle)
         }
         .rotationEffect(.degrees(rotation))
         .animation(.interpolatingSpring(stiffness: 170, damping: 8).delay(0.1), value: rotation)

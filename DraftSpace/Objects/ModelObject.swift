@@ -10,17 +10,31 @@ import RealityKit
 import ARKit
 import SwiftUI
 
-struct ModelObject: Codable {
+class ModelObject: Codable {
+    
+    init(modelType: ToolType, color: Color, size: Float, text: String) {
+        self.modelType = modelType
+        self.color = color
+        self.size = size
+        
+        self.text = text
+    }
     
     var modelType: ToolType
-//    var anchorContainer: ARAnchorContainer
-    var worldTransform: simd_float4x4
+    var worldTransform: simd_float4x4?
     
     var size: Float
     var text: String
     var color: Color
     
+    func copy(with zone: NSZone? = nil) -> ModelObject {
+        let copy = ModelObject(modelType: modelType, color: color, size: size, text: text)
+        return copy
+    }
+    
     var anchorEntity: AnchorEntity? {
+        
+        guard let worldTransform = worldTransform else { return nil }
         
         var mesh: MeshResource
         
@@ -31,6 +45,35 @@ struct ModelObject: Codable {
             mesh = MeshResource.generateSphere(radius: size/2)
         case .cube:
             mesh = MeshResource.generateBox(size: size, cornerRadius: size/8)
+        case .pencil:
+            mesh = MeshResource.generateSphere(radius: size/8)
+            
+//            let thickness = size/10
+//
+//            var positions: [SIMD3<Float>] = []
+//            var indices: [UInt32] = []
+//
+//            func offset(_ point: SIMD3<Float>, x: Float, y: Float) -> SIMD3<Float> {
+//                var offsetPoint = point
+//                offsetPoint.x += x
+//                offsetPoint.y += y
+//                return offsetPoint
+//            }
+//
+//            for point in points {
+//                let p0 = point
+//                let p1 = offset(point, x: <#T##Float#>, y: <#T##Float#>)
+//                let p2 = p0 + [0, thickness, 01]
+//                let p3 = p1 + [0, thickness, 0]
+//
+//                let i0 = positions.count
+//                let i1 = i0 + 1
+//                let 12 = 10 + 2
+//                let i3 = i0 + 3
+//
+//                positions.append(contentsOf: [p0, p1, p2, p3])
+//                indices.append(contentsOf: [i0, i2, il, i1, i2, i31)
+//            }
             
         default:
             return nil

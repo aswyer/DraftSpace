@@ -57,8 +57,8 @@ extension MultipeerSession: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        Task(priority: .background) {
-            receivedDataHandler(data, peerID)
+        DispatchQueue.main.async {
+            self.receivedDataHandler(data, peerID)
         }
     }
     
