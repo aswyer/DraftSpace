@@ -40,7 +40,7 @@ enum ViewType {
 @MainActor
 class MainModel: NSObject, ObservableObject, ARSCNViewDelegate, ARSessionDelegate {
     
-    var sceneView: ARSCNView?
+    var sceneView: ARView?
     var multipeerSession: MultipeerSession!
     
     @Published var buttonSelected : ToolType = .mouse
@@ -51,8 +51,9 @@ class MainModel: NSObject, ObservableObject, ARSCNViewDelegate, ARSessionDelegat
     @Published var baseColor: Color = .blue
     @Published var objectsPlaced: Int = 0
     @Published var collborators: Int = 0
+    @Published var depth: Float = 1
     
-    init(sceneView: ARSCNView? = nil) {
+    init(sceneView: ARView? = nil) {
         super.init()
         self.sceneView = sceneView
         self.multipeerSession = MultipeerSession(receivedDataHandler: receivedData)
@@ -121,9 +122,12 @@ class MainModel: NSObject, ObservableObject, ARSCNViewDelegate, ARSessionDelegat
     //    var tempNextGeometry: SCNGeometry?
     //    var tempNextAnchor: ARAnchor?
     
+//    private var mainAnchor: AnchorEntity?
+    
     func addModelObject(_ modelObject: ModelObject) {
-        guard let node = modelObject.node else { return }
-        sceneView?.scene.rootNode.addChildNode(node)
+        guard let anchorEntity = modelObject.anchorEntity else { return }
+        sceneView?.scene.addAnchor(anchorEntity)
+        
     }
     
     //    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {

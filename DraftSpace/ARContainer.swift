@@ -16,20 +16,16 @@ struct ARViewContainer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> some UIView {
         
-        let sceneView = ARSCNView(frame: .zero)
-
-        let configuration = ARWorldTrackingConfiguration()
-        configuration.planeDetection = .horizontal
-        sceneView.session.run(configuration)
-
-        sceneView.delegate = model
-        sceneView.session.delegate = model
+        let sceneView = ARView(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: false)
+        
+        let config = ARWorldTrackingConfiguration()
+        config.planeDetection = .horizontal
+        sceneView.session.run(config)
+        
+        sceneView.debugOptions = [.showAnchorOrigins]
+        
         model.sceneView = sceneView
 
-        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
-        
-        // Prevent the screen from being dimmed after a while as users will likely
-        // have long periods of interaction without touching the screen or buttons.
         UIApplication.shared.isIdleTimerDisabled = true
         
         return sceneView

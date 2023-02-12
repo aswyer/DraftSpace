@@ -21,22 +21,46 @@ struct ContentView: View {
     @ObservedObject var model : MainModel
     var body: some View {
         ZStack(alignment: .bottom) {
-            ARViewContainer(model: model).edgesIgnoringSafeArea(.all)
+            ARViewContainer(model: model)
+                .edgesIgnoringSafeArea(.all)
                 .onTapGesture { location in
                     
                     //move somewhere else
                     
                     //anchor
                     guard let raycastQuery = model.sceneView?
-                        .raycastQuery(from: location, allowing: .existingPlaneGeometry, alignment: .horizontal)
+                        .makeRaycastQuery(from: location, allowing: .existingPlaneGeometry, alignment: .any)
                     else { return }
                     
                     let raycastResult = model.sceneView?.session.raycast(raycastQuery)
                     
-                    guard let worldTransform = raycastResult?.first?.worldTransform else { return }
+                    //                guard let intersectionTransform = raycastResult?.first?.worldTransform else { return }
+                    //                let intersectionPosition = SIMD3(
+                    //                    x: intersectionTransform.columns.3.x,
+                    //                    y: intersectionTransform.columns.3.y,
+                    //                    z: intersectionTransform.columns.3.z
+                    //                )
+                    
+                    //                guard let cameraPosition = model.sceneView?.cameraTransform.translation else { return }
+                    //
+                    //                let midpoint = mix(cameraPosition, intersectionPosition, t: model.depth)
+                    //
+                    //
+                    //                let finalTransform = simd_float4x4(
+                    //                    SIMD4(1, 0, 0, 0),
+                    //                    SIMD4(0, 1, 0, 0),
+                    //                    SIMD4(0, 0, 1, 0),
+                    //                    SIMD4(intersectionPosition.x, intersectionPosition.y, intersectionPosition.z, 1)
+                    //                )
+                    
+                    //                let anchor = ARAnchor(transform: finalTransform)
+                    
+                    guard let anchorWorldTransform = raycastResult?.first?.worldTransform else { return }
                     
                     //publish
-                    let modelObject = ModelObject(worldPosition: worldTransform, modelType: .cube, size: 0.05)
+                    let modelObject = ModelObject(modelType: .cube, worldTransform: anchorWorldTransform, size: 0.2)
+                    //ARAnchorContainer(anchor: newAnchor)
+//                        let modelObject = ModelObject(modelType: .cube, position: midpoint, size: 0.05)
                     model.sendItem(modelObject)
                     model.addModelObject(modelObject)
                 }
@@ -57,7 +81,7 @@ struct ContentView: View {
                     Spacer()
                     ActionButton(model: model)
                         .padding()
-                    DepthSlider(sliderHeight: 0)
+                    DepthSlider(model: model, sliderHeight: 0)
                         .padding()
                         .frame(maxWidth: 50, maxHeight:150)
                     
@@ -154,10 +178,13 @@ struct ToolBar: View {
 }
 
 struct DepthSlider: View {
-    @State private var depth = 50.0
+    @ObservedObject var model: MainModel
+    
     var sliderHeight: CGFloat
+    
     var body: some View {
-        ValueSlider(value: $depth, in: 1...100, step: 1)
+        
+        ValueSlider(value: $model.depth, in: 0.1...1)
             .valueSliderStyle(
                 VerticalValueSliderStyle(track: VerticalRangeTrack(view: Capsule().foregroundColor(.clear))
                     .background(.ultraThinMaterial)
@@ -200,6 +227,7 @@ struct ActionButton: View {
             .font(Font.system(size:65))
     }
 
+        // .background(.ultraThinMaterial)
         
     }
     func onPress() {
