@@ -13,7 +13,8 @@ import ARKit
 import Sliders
 
 extension Color {
-    static let forestGreen = Color(red: 77/255, green:14/255, blue:60/255)
+    static let lightGray = Color(red: 220/255, green:220/255, blue: 220/255)
+    static let mauve = Color(red: 77/255, green:14/255, blue:60/255)
 }
 
 struct ContentView: View {
@@ -21,24 +22,24 @@ struct ContentView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             ARViewContainer(model: model).edgesIgnoringSafeArea(.all)
-            .onTapGesture { location in
-                
-                //move somewhere else
-                
-                //anchor
-                guard let raycastQuery = model.sceneView?
-                    .raycastQuery(from: location, allowing: .existingPlaneGeometry, alignment: .horizontal)
-                else { return }
-                
-                let raycastResult = model.sceneView?.session.raycast(raycastQuery)
-
-                guard let worldTransform = raycastResult?.first?.worldTransform else { return }
-
-                //publish
-                let modelObject = ModelObject(worldPosition: worldTransform, modelType: .cube, size: 0.05)
-                model.sendItem(modelObject)
-                model.addModelObject(modelObject)
-            }
+                .onTapGesture { location in
+                    
+                    //move somewhere else
+                    
+                    //anchor
+                    guard let raycastQuery = model.sceneView?
+                        .raycastQuery(from: location, allowing: .existingPlaneGeometry, alignment: .horizontal)
+                    else { return }
+                    
+                    let raycastResult = model.sceneView?.session.raycast(raycastQuery)
+                    
+                    guard let worldTransform = raycastResult?.first?.worldTransform else { return }
+                    
+                    //publish
+                    let modelObject = ModelObject(worldPosition: worldTransform, modelType: .cube, size: 0.05)
+                    model.sendItem(modelObject)
+                    model.addModelObject(modelObject)
+                }
             VStack(){
                 HStack{
                     Spacer()
@@ -79,84 +80,72 @@ struct ContentView_Previews: PreviewProvider {
 
 struct ToolBar: View {
     @ObservedObject var model: MainModel
+    @State private var rotation = 0.0
     var body: some View {
         HStack{
             ForEach(ToolType.allCases, id: \.self) { buttonType in
-                if(buttonType == model.buttonSelected) {
-                    Button(action:{
-                        withAnimation(){
-                            if(model.canChangeTool) {
-                                model.buttonSelected = buttonType
-                            }
+                Button{
+                    withAnimation(.easeIn) {
+                        if(model.canChangeTool) {
+                            model.buttonSelected = buttonType
                         }
-                    }) {
-                        Image(systemName: buttonType.imageName).font(Font.system(.largeTitle))
                     }
-                    .padding()
-                    .buttonStyle(.borderedProminent)
-                    .cornerRadius(15)
+                } label: {
+                    Image(systemName: buttonType.imageName)
+                        .font(Font.system(.largeTitle))
                 }
-                else {
-                    Button(action:{
-                        withAnimation {
-                            if(model.canChangeTool) {
-                                model.buttonSelected = buttonType
-                            }
-                        }
-                    }) {
-                        Image(systemName: buttonType.imageName).font(Font.system(.largeTitle))
-                    }.padding()
-    
-                }
+                .padding()
+                .background(buttonType == model.buttonSelected ? .thickMaterial: .ultraThinMaterial)
+                .clipShape(Capsule())
+               
+                .padding()
                 
             }
             Divider().frame(maxHeight:60).padding()
-            ColorPicker("",selection: $model.objectColor)
-                .labelsHidden()
-                .padding()
-            Group() {
-                switch(model.buttonSelected) {
-                case .sphere:
-                    Button(""){}
-                    
-                case .cube:
-                    Button(""){}
-                case .prism:
-                    Button(""){}
-                case .pencil:
-                    
-                    Button(""){}
-                    
-                case .highlighter:
-                    Button(""){}
-                    
-                    
-                case .mouse:
-                    Button{
-                        withAnimation(){
-                            model.moveSelected.toggle()
-                            model.canChangeTool.toggle()
+            HStack{
+                ColorPicker("",selection: $model.objectColor)
+                    .labelsHidden()
+                    .padding()
+                Group() {
+                    switch(model.buttonSelected) {
+                    case .sphere:
+                        Button(""){}
+                    case .cube:
+                        Button(""){}
+                    case .prism:
+                        Button(""){}
+                    case .pencil:
+                        Button(""){}
+                    case .highlighter:
+                        Button(""){}
+                    case .mouse:
+                        Button{
+                            withAnimation() {
+                                model.moveSelected.toggle()
+                                model.canChangeTool.toggle()
+                                rotation = 180
+                            }
+                        }label: {
+                            if(!model.moveSelected) {
+                                Image(systemName: "arrow.up.and.down.and.arrow.left.and.right" ).font(.largeTitle)
+                            }
+                            else {
+                                Image(systemName: "x.circle")
+                                    .font(.largeTitle)
+                                    .foregroundColor(.red)
+                            }
                             
-                        }
-                    }label: {
-                        if(!model.moveSelected) {
-                            Image(systemName: "arrow.up.and.down.and.arrow.left.and.right" ).font(.largeTitle)
-                        }
-                        else {
-                            Image(systemName: "x.circle")
-                                .font(.largeTitle)
-                                .foregroundColor(.red)
-                        }
+                            
+                        }.padding()
                         
                         
-                    }.padding()
-                }
-            }.transition(.scale)
-            
-            
+                    }
+                }.transition(.scale)
+            }.background(.ultraThinMaterial)
+                .clipShape(Capsule())
         }
         .padding()
-        .background(.ultraThinMaterial)
+      //  .background(.red)
         .cornerRadius(20)
         .padding()
     }
@@ -167,9 +156,7 @@ struct ToolBar: View {
 struct DepthSlider: View {
     @State private var depth = 50.0
     var sliderHeight: CGFloat
-    
     var body: some View {
-        
         ValueSlider(value: $depth, in: 1...100, step: 1)
             .valueSliderStyle(
                 VerticalValueSliderStyle(track: VerticalRangeTrack(view: Capsule().foregroundColor(.clear))
@@ -212,7 +199,7 @@ struct ActionButton: View {
         Image(systemName:"button.programmable")
             .font(Font.system(size:65))
     }
-        // .background(.ultraThinMaterial)
+
         
     }
     func onPress() {

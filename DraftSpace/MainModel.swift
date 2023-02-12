@@ -48,7 +48,7 @@ class MainModel: NSObject, ObservableObject, ARSCNViewDelegate, ARSessionDelegat
     @Published var moveSelected: Bool = false
     @Published var viewType: ViewType = .AR
     @Published var canChangeTool: Bool = true
-    @Published var baseColor: Color = .forestGreen
+    @Published var baseColor: Color = .blue
     @Published var objectsPlaced: Int = 0
     @Published var collborators: Int = 0
     
