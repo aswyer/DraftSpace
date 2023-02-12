@@ -24,9 +24,19 @@ struct ContentView: View {
         ZStack(alignment: .bottom) {
             ARViewContainer(model: model)
                 .edgesIgnoringSafeArea(.all)
+                .gesture(
+                    MagnificationGesture()
+                        .onChanged({ newValue in
+                            model.size = min(
+                                max(0.05, model.size + Float(newValue.magnitude - 1)/50),
+                                0.8
+                            )
+                        })
+                )
             
             VStack(){
                 HStack{
+                    Text("\(model.size)")
                     Spacer()
                     Picker("",selection: $model.viewType) {
                         Text("AR").tag(ViewType.AR)
@@ -97,8 +107,8 @@ struct ToolBar: View {
                         Button(""){}
                     case .cube:
                         Button(""){}
-                    case .prism:
-                        Button(""){}
+                    case .text:
+                        TextField("Text:", text: $model.text)
                     case .pencil:
                         Button(""){}
                     case .highlighter:
@@ -174,9 +184,9 @@ struct ActionButton: View {
             case ToolType.highlighter:
                 onRelease()
             case ToolType.sphere:
-                onPress()
-            case ToolType.prism:
-                onPress()
+                model.confirmPlacement()
+            case ToolType.text:
+                model.confirmPlacement()
             case ToolType.cube:
                 model.confirmPlacement()
             }

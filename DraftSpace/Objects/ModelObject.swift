@@ -8,6 +8,7 @@
 import Foundation
 import RealityKit
 import ARKit
+import SwiftUI
 
 struct ModelObject: Codable {
     
@@ -15,16 +16,20 @@ struct ModelObject: Codable {
 //    var anchorContainer: ARAnchorContainer
     var worldTransform: simd_float4x4
     
-    var size: Float?
-    var radius: Float?
+    var size: Float
+    var text: String
+    var color: Color
     
     var anchorEntity: AnchorEntity? {
         
         var mesh: MeshResource
         
         switch modelType {
+        case .text:
+            mesh = MeshResource.generateText(text, extrusionDepth: size/4, font: .systemFont(ofSize: CGFloat(size)), alignment: .center)
+        case .sphere:
+            mesh = MeshResource.generateSphere(radius: size/2)
         case .cube:
-            guard let size = size else { return nil }
             mesh = MeshResource.generateBox(size: size, cornerRadius: size/8)
             
         default:
@@ -32,7 +37,8 @@ struct ModelObject: Codable {
         }
         
         var material = PhysicallyBasedMaterial()
-        material.baseColor = PhysicallyBasedMaterial.BaseColor(tint:.blue)
+        material.baseColor = PhysicallyBasedMaterial.BaseColor(tint: UIColor(color))
+        material.roughness = PhysicallyBasedMaterial.Roughness(0.1)
         material.metallic = PhysicallyBasedMaterial.Metallic(0.8)
         
         let modelEntity = ModelEntity(mesh: mesh, materials: [material])

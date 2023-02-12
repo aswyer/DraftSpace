@@ -23,10 +23,11 @@ struct ARViewContainer: UIViewRepresentable {
         config.planeDetection = .horizontal
         sceneView.session.run(config)
         
+        sceneView.debugOptions = [.showWorldOrigin]
+        
+        
         model.arModel.sceneView = sceneView
         
-        sceneView.debugOptions = [.showAnchorOrigins]
-
         UIApplication.shared.isIdleTimerDisabled = true
         
         return sceneView

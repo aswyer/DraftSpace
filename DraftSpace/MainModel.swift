@@ -11,7 +11,7 @@ import RealityKit
 
 enum ToolType: String, CaseIterable, Codable {
     
-    case sphere, cube, prism, pencil, highlighter, mouse
+    case mouse, cube, sphere, text, pencil, highlighter
 
     var imageName: String {
         switch(self) {
@@ -19,8 +19,8 @@ enum ToolType: String, CaseIterable, Codable {
             return "circle"
         case .cube:
             return "square"
-        case .prism:
-            return "triangle"
+        case .text:
+            return "textformat.size.larger"
         case .pencil:
             return  "pencil"
         case .highlighter:
@@ -46,6 +46,8 @@ class MainModel: NSObject, ObservableObject {
     @Published var objectsPlaced: Int = 0
     @Published var collborators: Int = 0
     @Published var depth: Float = 1
+    @Published var text: String = "Hello World"
+    @Published var size: Float = 0.05
     
     var arModel = ARModel()
     
@@ -84,7 +86,7 @@ class MainModel: NSObject, ObservableObject {
         )
         
         //publish
-        let modelObject = ModelObject(modelType: .cube, worldTransform: finalTransform, size: 0.2)
+        let modelObject = ModelObject(modelType: buttonSelected, worldTransform: finalTransform, size: size, text: text, color: objectColor)
         arModel.sendItem(modelObject)
         arModel.addModelObject(modelObject)
     }

@@ -14,6 +14,7 @@
 		400EBA6529982A6E0005478E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 400EBA6429982A6E0005478E /* Preview Assets.xcassets */; };
 		401BBDBE299869EF00658212 /* ModelObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401BBDBD299869EF00658212 /* ModelObject.swift */; };
 		404FD44A29990F24001CEF86 /* ARModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404FD44929990F24001CEF86 /* ARModel.swift */; };
+		404FD44C299927B8001CEF86 /* Color+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404FD44B299927B8001CEF86 /* Color+Codable.swift */; };
 		40B9893629982D4C00E92373 /* ARContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B9893529982D4C00E92373 /* ARContainer.swift */; };
 		40B9893829982DED00E92373 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B9893729982DED00E92373 /* MainModel.swift */; };
 		40B9893A29983A7400E92373 /* MultipeerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B9893929983A7400E92373 /* MultipeerSession.swift */; };
@@ -27,6 +28,7 @@
 		400EBA6429982A6E0005478E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		401BBDBD299869EF00658212 /* ModelObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelObject.swift; sourceTree = "<group>"; };
 		404FD44929990F24001CEF86 /* ARModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ARModel.swift; path = "../../../My Drive/School/4th/Spring/ARModel.swift"; sourceTree = "<group>"; };
+		404FD44B299927B8001CEF86 /* Color+Codable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Codable.swift"; sourceTree = "<group>"; };
 		40B9893529982D4C00E92373 /* ARContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARContainer.swift; sourceTree = "<group>"; };
 		40B9893729982DED00E92373 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		40B9893929983A7400E92373 /* MultipeerSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerSession.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				40B9893729982DED00E92373 /* MainModel.swift */,
 				404FD44929990F24001CEF86 /* ARModel.swift */,
 				401BBDBF299884CA00658212 /* Objects */,
+				404FD44B299927B8001CEF86 /* Color+Codable.swift */,
 				400EBA6129982A6E0005478E /* Assets.xcassets */,
 				400EBA6329982A6E0005478E /* Preview Content */,
 			);
@@ -172,6 +175,7 @@
 			files = (
 				40B9893629982D4C00E92373 /* ARContainer.swift in Sources */,
 				40B9893829982DED00E92373 /* MainModel.swift in Sources */,
+				404FD44C299927B8001CEF86 /* Color+Codable.swift in Sources */,
 				40B9893A29983A7400E92373 /* MultipeerSession.swift in Sources */,
 				400EBA6029982A6D0005478E /* ContentView.swift in Sources */,
 				401BBDBE299869EF00658212 /* ModelObject.swift in Sources */,
