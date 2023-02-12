@@ -19,12 +19,13 @@ struct ARViewContainer: UIViewRepresentable {
         let sceneView = ARView(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: false)
         
         let config = ARWorldTrackingConfiguration()
+        config.environmentTexturing = .automatic
         config.planeDetection = .horizontal
         sceneView.session.run(config)
         
-        sceneView.debugOptions = [.showAnchorOrigins]
+        model.arModel.sceneView = sceneView
         
-        model.sceneView = sceneView
+        sceneView.debugOptions = [.showAnchorOrigins]
 
         UIApplication.shared.isIdleTimerDisabled = true
         

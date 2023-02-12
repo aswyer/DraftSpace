@@ -19,51 +19,12 @@ extension Color {
 
 struct ContentView: View {
     @ObservedObject var model : MainModel
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             ARViewContainer(model: model)
                 .edgesIgnoringSafeArea(.all)
-                .onTapGesture { location in
-                    
-                    //move somewhere else
-                    
-                    //anchor
-                    guard let raycastQuery = model.sceneView?
-                        .makeRaycastQuery(from: location, allowing: .existingPlaneGeometry, alignment: .any)
-                    else { return }
-                    
-                    let raycastResult = model.sceneView?.session.raycast(raycastQuery)
-                    
-                    //                guard let intersectionTransform = raycastResult?.first?.worldTransform else { return }
-                    //                let intersectionPosition = SIMD3(
-                    //                    x: intersectionTransform.columns.3.x,
-                    //                    y: intersectionTransform.columns.3.y,
-                    //                    z: intersectionTransform.columns.3.z
-                    //                )
-                    
-                    //                guard let cameraPosition = model.sceneView?.cameraTransform.translation else { return }
-                    //
-                    //                let midpoint = mix(cameraPosition, intersectionPosition, t: model.depth)
-                    //
-                    //
-                    //                let finalTransform = simd_float4x4(
-                    //                    SIMD4(1, 0, 0, 0),
-                    //                    SIMD4(0, 1, 0, 0),
-                    //                    SIMD4(0, 0, 1, 0),
-                    //                    SIMD4(intersectionPosition.x, intersectionPosition.y, intersectionPosition.z, 1)
-                    //                )
-                    
-                    //                let anchor = ARAnchor(transform: finalTransform)
-                    
-                    guard let anchorWorldTransform = raycastResult?.first?.worldTransform else { return }
-                    
-                    //publish
-                    let modelObject = ModelObject(modelType: .cube, worldTransform: anchorWorldTransform, size: 0.2)
-                    //ARAnchorContainer(anchor: newAnchor)
-//                        let modelObject = ModelObject(modelType: .cube, position: midpoint, size: 0.05)
-                    model.sendItem(modelObject)
-                    model.addModelObject(modelObject)
-                }
+            
             VStack(){
                 HStack{
                     Spacer()
@@ -121,7 +82,7 @@ struct ToolBar: View {
                 .padding()
                 .background(buttonType == model.buttonSelected ? .thickMaterial: .ultraThinMaterial)
                 .clipShape(Capsule())
-               
+                
                 .padding()
                 
             }
@@ -169,7 +130,7 @@ struct ToolBar: View {
                 .clipShape(Capsule())
         }
         .padding()
-      //  .background(.red)
+        //  .background(.red)
         .cornerRadius(20)
         .padding()
     }
@@ -208,7 +169,6 @@ struct ActionButton: View {
                     withAnimation(){
                         model.moveSelected.toggle()
                         model.canChangeTool.toggle()
-                        
                     }
                 }
             case ToolType.highlighter:
@@ -218,7 +178,7 @@ struct ActionButton: View {
             case ToolType.prism:
                 onPress()
             case ToolType.cube:
-                onPress()
+                model.confirmPlacement()
             }
             
         }
@@ -226,7 +186,7 @@ struct ActionButton: View {
         Image(systemName:"button.programmable")
             .font(Font.system(size:65))
     }
-
+        
         // .background(.ultraThinMaterial)
         
     }
